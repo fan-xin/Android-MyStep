@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#dfcfa4"
+    tools:context=".HomeActivity">
+
+    <!--标题栏 -->
+    <RelativeLayout
+        android:background="#b6f47d"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <TextView
+            android:id="@+id/textView"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp"
+            android:text="计步器"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView"
+            android:src="@drawable/setting_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            />
+    </RelativeLayout>
+
+    <!--滚动视图，保证所有内容都可以显示出来 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                >
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:text="大卡"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:text="活动时间"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:text="公里"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                >
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:text="0.00"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:text="0h"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp"
+                    android:text="0"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+            <!--自定义的组件，显示进度-->
+
+            <FrameLayout
+                android:id="@+id/stepCountView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <View
+                    android:layout_gravity="center"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"/>
+
+                    <TextView
+                        android:id="@+id/stepCount"
+                        android:layout_height="146dp"
+                        android:layout_width="146dp"
+                        android:layout_gravity="center"
+                        android:text="0"
+                        android:gravity="center"
+                        android:textSize="26sp"
+                        android:background="@drawable/happy"
+                        />
+            </FrameLayout>
+
+            <!--开始和重置按钮 -->
+            <LinearLayout
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <Button
+                    android:layout_marginRight="2dp"
+                    android:textColor="@color/colorWhite"
+                    android:background="@drawable/btn_blue_selector"
+                    android:minWidth="120dp"
+                    android:minHeight="32dp"
+                    android:text="重置"
+                    android:id="@+id/reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:layout_marginRight="2dp"
+                    android:textColor="@color/colorWhite"
+                    android:background="@drawable/btn_blue_selector"
+                    android:minWidth="120dp"
+                    android:minHeight="32dp"
+                    android:text="开始"
+                    android:id="@+id/start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+
+            </LinearLayout>
+
+            <!--图表 -->
+            <com.github.mikephil.charting.charts.BarChart
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:id="@+id/chart1"
+                android:layout_width="match_parent"
+                android:layout_height="240dp">
+
+            </com.github.mikephil.charting.charts.BarChart>
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+</LinearLayout>
