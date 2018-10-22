@@ -4,10 +4,14 @@ import android.app.Service;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import com.example.beans.PedometerChartBean;
 import com.example.db.DBHelper;
+import com.example.frame.FrameApplication;
+import com.example.utils.ACache;
 import com.example.utils.Settings;
 import com.example.utils.Utiles;
 import com.example.beans.PedometerBean;
@@ -29,6 +33,25 @@ public class PedometerService extends Service {
 
     private Settings settings;
 
+    private PedometerChartBean pedometerChartBean;
+
+    private static Handler handler = new Handler();
+    //一分钟
+    private static final long SAVE_CHART_TIME = 60000L;
+
+    private Runnable timeRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (runStatus == STATUS_RUNNING){
+                if (handler != null&&pedometerChartBean!=null){
+                    handler.removeCallbacks(timeRunnable);
+                    updateChartData();//更新数据
+                    handler.postDelayed(timeRunnable,SAVE_CHART_TIME);
+                }
+            }
+
+        }
+    };
 
 
     @Override
@@ -37,9 +60,34 @@ public class PedometerService extends Service {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         pedometerBean = new PedometerBean();
         pedometerListener = new PedometerListener(pedometerBean);
+        //构造图表类型的数据
+        pedometerChartBean = new PedometerChartBean();
         settings = new Settings(this);
 
     }
+
+    //更新记步器的图表数据
+    private void updateChartData(){
+        if (pedometerChartBean.getIndex() <1440-1 ){
+            pedometerChartBean.setIndex(pedometerChartBean.getIndex()+1);
+            pedometerChartBean.getArrayData()[pedometerChartBean.getIndex()] = pedometerBean.getStepCount();
+
+        }
+    }
+
+    /**
+     * 将对象保存
+     *
+     * */
+    private void saveChartData(){
+        String jsonStr = Utiles.objToJson(pedometerChartBean);
+        ACache.get(FrameApplication.getInstance()).put("JsonChartData",jsonStr);
+
+
+    }
+
+
+
 
     private IPedometerService.Stub iPedometerService =  new IPedometerService.Stub() {
         @Override
@@ -60,7 +108,10 @@ public class PedometerService extends Service {
                 //解析数据，记录是哪一天的数据
                 pedometerBean.setDay(Utiles.getTimestampByDay());
                 runStatus = STATUS_RUNNING;
+
+                handler.postDelayed(timeRunnable,SAVE_CHART_TIME);//开始触发数据刷新
             }
+
 
         }
 
@@ -75,6 +126,7 @@ public class PedometerService extends Service {
                 Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
                 sensorManager.unregisterListener(pedometerListener,sensor);
                 runStatus=STATUS_NOT_RUN;
+                handler.removeCallbacks(timeRunnable);//停止刷新
 
             }
 
@@ -202,6 +254,11 @@ public class PedometerService extends Service {
         @Override
         public int getServiceStatus() throws RemoteException {
             return runStatus;
+        }
+
+        @Override
+        public PedometerChartBean getChartData() throws RemoteException {
+            return null;
         }
 
     };

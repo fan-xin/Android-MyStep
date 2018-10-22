@@ -1,5 +1,7 @@
 package com.example.utils;
 
+import com.google.gson.Gson;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,6 +42,15 @@ public class Utiles {
         double distance = (stepCount*(long)(stepLen))/100000.0f;
         return distance;
     }
+
+
+    //将对象转换成字符串
+    public static String objToJson(Object obj){
+        Gson gson = new Gson();
+        return gson.toJson(obj);
+    }
+
+
 
 
 }

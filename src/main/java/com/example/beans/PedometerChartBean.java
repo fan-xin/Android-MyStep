@@ -11,8 +11,13 @@ import android.os.Parcelable;
  */
 public class PedometerChartBean implements Parcelable {
 
-    private int[] arrayData = new int[1440];
-    private int index = 0;
+    private int[] arrayData;
+    private int index;
+
+    public PedometerChartBean(){
+        index = 0;
+        arrayData = new int[1440];
+    }
 
     protected PedometerChartBean(Parcel in) {
         arrayData = in.createIntArray();
