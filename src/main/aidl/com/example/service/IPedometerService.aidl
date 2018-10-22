@@ -1,7 +1,9 @@
 // IPedometerService.aidl
 package com.example.service;
+import com.example.beans.IPedometerChartBean;
 
 // Declare any non-default types here with import statements
+// 定义方法接口
 
 interface IPedometerService {
     /**
@@ -37,4 +39,8 @@ interface IPedometerService {
         long getStartTimeStamp();
         //设置服务运行状态
         int getServiceStatus();
+
+        //对外的接口
+        //获取运动图表数据
+        //PedometerChartBean getChartData();
 }

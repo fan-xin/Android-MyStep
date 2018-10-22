@@ -4,9 +4,16 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 
+import com.example.beans.PedometerBean;
+
 public class PedometerListener implements SensorEventListener {
     //当前步数
     private int currentSteps = 0;
+
+    public void setCurrentSteps(int steps){
+        currentSteps=steps;
+    }
+
     //灵敏度
     private float sensitivity = 30;
     //采样时间
@@ -28,6 +35,20 @@ public class PedometerListener implements SensorEventListener {
     private float mLastDiff;
     //是否匹配
     private int mLastMatch = -1;
+
+    private PedometerBean data;
+
+    //在数据采集时，将数据写入bean
+
+    public PedometerListener(PedometerBean data) {
+        this.data = data;
+
+    }
+
+
+
+
+
 
     //当传感器数值发生变化的时候
     @Override
@@ -88,6 +109,17 @@ public class PedometerListener implements SensorEventListener {
                                 //重新开始计时
                                 start = end;
                                 mLastDiff = diff;
+
+                                //将采集到的数据写入bean
+                                if (data != null){
+                                    //记录步数
+                                    data.setStepCount(currentSteps);
+                                    //记录时间
+                                    data.setLastStepTime(System.currentTimeMillis());
+
+                                }
+
+
                             }
                             else {
                                 //时间过短，不是有效的记录
