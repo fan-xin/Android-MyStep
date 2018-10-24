@@ -1,4 +1,4 @@
-// IPedometerChartBean.aidl
+// PedometerChartBean.aidl
 package com.example.beans;
 parcelable PedometerChartBean;
 

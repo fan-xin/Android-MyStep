@@ -84,6 +84,7 @@
                 android:layout_marginBottom="4dp"
                 >
                 <TextView
+                    android:id="@+id/id_tx_calorie"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp"
                     android:text="0.00"
@@ -92,6 +93,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/id_tx_time"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp"
                     android:text="0h"
@@ -100,6 +102,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/id_tx_distance"
                     android:textColor="@color/colorBlack"
                     android:textSize="16sp"
                     android:text="0"
@@ -117,21 +120,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <View
+                <com.example.widgets.CircleProgressBar
+                    android:id="@+id/circleProgressBar"
                     android:layout_gravity="center"
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"/>
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"/>
 
-                    <TextView
-                        android:id="@+id/stepCount"
-                        android:layout_height="146dp"
-                        android:layout_width="146dp"
-                        android:layout_gravity="center"
-                        android:text="0"
-                        android:gravity="center"
-                        android:textSize="26sp"
-                        android:background="@drawable/happy"
-                        />
+                <TextView
+                    android:id="@+id/stepCount"
+                    android:layout_height="146dp"
+                    android:layout_width="146dp"
+                    android:layout_gravity="center"
+                    android:text="0"
+                    android:gravity="center"
+                    android:textSize="26sp" />
+                <TextView
+                    android:layout_marginTop="36sp"
+                    android:id="@+id/stepCount2"
+                    android:layout_height="146dp"
+                    android:layout_width="146dp"
+                    android:layout_gravity="center"
+                    android:text="目标10000步"
+                    android:gravity="center"
+                    android:textSize="16sp" />
+
+
             </FrameLayout>
 
             <!--开始和重置按钮 -->
@@ -170,7 +183,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:id="@+id/chart1"
+                android:id="@+id/dataChart"
                 android:layout_width="match_parent"
                 android:layout_height="240dp">
 

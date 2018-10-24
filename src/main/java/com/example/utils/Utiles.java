@@ -1,10 +1,16 @@
 package com.example.utils;
 
+import android.app.ActivityManager;
+import android.content.Context;
+
 import com.google.gson.Gson;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 public class Utiles {
     public static long getTimestampByDay(){
@@ -48,6 +54,36 @@ public class Utiles {
     public static String objToJson(Object obj){
         Gson gson = new Gson();
         return gson.toJson(obj);
+    }
+
+    public static String getFormatVal(double val){
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        return decimalFormat.format(val);
+    }
+    /**
+    *服务是否运行
+     * 判断服务是否在运行
+    *@author Fan Xin <fanxin.hit@gmail.com>
+    *@time
+    */
+    public static boolean isServiceRunning(Context context, String serviceName){
+        boolean isRunning = false;
+        if (context==null||serviceName==null){
+            return isRunning;
+        }
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List serviceList = activityManager.getRunningServices(Integer.MAX_VALUE);
+        Iterator iterator = serviceList.iterator();
+        while (iterator.hasNext()){
+            ActivityManager.RunningServiceInfo runningServiceInfo =
+                    (ActivityManager.RunningServiceInfo) iterator.next();
+            if (serviceName.trim().equals(runningServiceInfo.service.getClassName())){
+                isRunning = true;
+                return isRunning;
+            }
+        }
+        return isRunning;
+
     }
 
 
