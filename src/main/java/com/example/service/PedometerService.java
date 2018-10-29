@@ -138,6 +138,11 @@ public class PedometerService extends Service {
                 pedometerBean.reset();
                 saveData();
             }
+            if (pedometerChartBean != null){
+                pedometerChartBean.reset();
+                saveChartData();
+            }
+
             if (pedometerListener!=null){
                 pedometerListener.setCurrentSteps(0);
             }
@@ -258,7 +263,7 @@ public class PedometerService extends Service {
 
         @Override
         public PedometerChartBean getChartData() throws RemoteException {
-            return null;
+            return pedometerChartBean;
         }
 
     };

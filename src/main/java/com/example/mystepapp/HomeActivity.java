@@ -1,12 +1,14 @@
 package com.example.mystepapp;
 
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.RemoteException;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -102,6 +104,7 @@ public class HomeActivity extends BaseActivity {
 
         dataChart = findViewById(R.id.dataChart);
 
+        //开始／停止按钮
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,11 +140,43 @@ public class HomeActivity extends BaseActivity {
         });
 
 
+        //重置按钮
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+                builder.setTitle("确认重置");
+                builder.setMessage("您的记录将被清空，确定吗？");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //改变记步的状态
+                        if (remoteService !=null){
+                            try {
+                                remoteService.stopCount();
+                                remoteService.resetCount();
+                                pedometerChartBean= remoteService.getChartData();
+                                //更新图表
+                                updateChart(pedometerChartBean);
+                                //获取服务器的状态
+                                status = remoteService.getServiceStatus();
+                                if (status == PedometerService.STATUS_RUNNING){
+                                    start.setText("停止");
+                                }else if (status==PedometerService.STATUS_NOT_RUN){
+                                    start.setText("启动");
+                                }
+                            } catch (RemoteException e) {
+                                LogWriter.d(e.toString());
+                            }
+                        }
+                        //使对话框消失
+                        dialog.dismiss();
 
-
+                    }
+                });
+                builder.setNegativeButton("取消",null);
+                AlertDialog resetDialog = builder.create();
+                resetDialog.show();
             }
         });
 
@@ -325,11 +360,11 @@ public class HomeActivity extends BaseActivity {
             ArrayList<BarDataSet> dataSets = new ArrayList<BarDataSet>();
             dataSets.add(set1);
             //对于同一组ｘ，可以有多个ｙ，在这个例子中，只有一个数据集
-            BarData data = new BarData(xVals,dataSets);
-            data.setValueTextSize(10f);
-            dataChart.setData(data);
-            //刷新
-            dataChart.invalidate();
+//            BarData data = new BarData(xVals,dataSets);
+//            data.setValueTextSize(10f);
+//            dataChart.setData(data);
+//            //刷新
+//            dataChart.invalidate();
         }
     }
 

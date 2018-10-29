@@ -19,6 +19,13 @@ public class PedometerChartBean implements Parcelable {
         arrayData = new int[1440];
     }
 
+    public void reset(){
+        index = 0;
+        for (int i = 0; i < arrayData.length; i++) {
+            arrayData[i]=0;
+        }
+    }
+
     protected PedometerChartBean(Parcel in) {
         arrayData = in.createIntArray();
         index = in.readInt();
