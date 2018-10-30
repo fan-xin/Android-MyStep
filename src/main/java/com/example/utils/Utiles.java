@@ -56,9 +56,14 @@ public class Utiles {
         return gson.toJson(obj);
     }
 
-    public static String getFormatVal(double val){
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+    public static String getFormatVal(double val,String formatString){
+        DecimalFormat decimalFormat = new DecimalFormat(formatString);
         return decimalFormat.format(val);
+    }
+
+    public static String getFormatVal(double val){
+//        DecimalFormat doubleecimalFormat = new DecimalFormat("0.00");
+        return getFormatVal(val,"0.00");
     }
     /**
     *服务是否运行

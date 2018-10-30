@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -42,6 +43,7 @@ public class HomeActivity extends BaseActivity {
     private TextView stepCount;
     private Button reset;
     private Button start;
+    private ImageView setting;
 
     private BarChart dataChart;
 
@@ -177,6 +179,17 @@ public class HomeActivity extends BaseActivity {
                 builder.setNegativeButton("取消",null);
                 AlertDialog resetDialog = builder.create();
                 resetDialog.show();
+            }
+        });
+
+        setting = (ImageView)findViewById(R.id.id_ig_setting);
+
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(HomeActivity.this, SettingActivity.class);
+                startActivity(intent);
             }
         });
 
