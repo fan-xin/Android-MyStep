@@ -10,10 +10,10 @@ public class PedometerListener implements SensorEventListener {
     //当前步数
     private int currentSteps = 0;
 
+    //设置当前步数
     public void setCurrentSteps(int steps){
         currentSteps=steps;
     }
-
     //灵敏度
     private float sensitivity = 30;
     //采样时间
@@ -44,11 +44,6 @@ public class PedometerListener implements SensorEventListener {
         this.data = data;
 
     }
-
-
-
-
-
 
     //当传感器数值发生变化的时候
     @Override
@@ -116,22 +111,17 @@ public class PedometerListener implements SensorEventListener {
                                     data.setStepCount(currentSteps);
                                     //记录时间
                                     data.setLastStepTime(System.currentTimeMillis());
-
                                 }
-
-
                             }
                             else {
                                 //时间过短，不是有效的记录
                                 mLastDiff = sensitivity;
-
                             }
                         }
                         //条件不满足的情况
                         else{
                             mLastMatch = -1;
                             mLastDiff = sensitivity;
-
                         }
                     }
                 }
@@ -140,10 +130,25 @@ public class PedometerListener implements SensorEventListener {
             }
         }
     }
-
     //当传感器精度发生变化的时候
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public float getSensitivity() {
+        return sensitivity;
+    }
+
+    public void setSensitivity(float sensitivity) {
+        this.sensitivity = sensitivity;
+    }
+
+    public long getLimit() {
+        return mLimit;
+    }
+
+    public void setLimit(long mLimit) {
+        this.mLimit = mLimit;
     }
 }

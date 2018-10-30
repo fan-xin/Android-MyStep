@@ -53,6 +53,21 @@ public class PedometerService extends Service {
         }
     };
 
+    public static double getCalorieBySteps(int stepCount){
+        //步长
+        int stepLen = 50;
+        //体重
+        int bodyWeight = 70;
+        //走路 走路热量(kcal)=体重(kg)*距离(公里)*0.0708
+        double METRIC_WALKING_FACTOR = 0.708;
+        //跑步 跑步热量（kcal）=体重（kg）* 距离(公里)*1.02784823
+        double METRIC_RUNNING_FACTOR = 1.02784823;
+
+        double calories = (bodyWeight*METRIC_WALKING_FACTOR)*stepLen*stepCount/100000.0;
+
+        return calories;
+    }
+
 
     @Override
     public void onCreate() {
@@ -160,7 +175,7 @@ public class PedometerService extends Service {
         @Override
         public double getCarlorie() throws RemoteException {
             if (pedometerBean != null){
-                return Utiles.getCalorieBySteps(pedometerBean.getStepCount());
+                return getCalorieBySteps(pedometerBean.getStepCount());
             }
 
             return 0;
@@ -197,7 +212,7 @@ public class PedometerService extends Service {
                         //设置距离
                         pedometerBean.setDistance(getDistanceVal());
                         //设置热量消耗
-                        pedometerBean.setCalorie(Utiles.getCalorieBySteps(pedometerBean.getStepCount()));
+                        pedometerBean.setCalorie(getCalorieBySteps(pedometerBean.getStepCount()));
 
                         long time = (pedometerBean.getLastStepTime() - pedometerBean.getStartTime())/1000;
 
@@ -222,6 +237,10 @@ public class PedometerService extends Service {
             if (settings!=null){
                 settings.setSensitivity((float) sensitivity);
             }
+            if (pedometerListener!=null){
+                pedometerListener.setSensitivity((float) sensitivity);
+
+            }
         }
 
         @Override
@@ -236,6 +255,10 @@ public class PedometerService extends Service {
         public void setInterval(int interval) throws RemoteException {
             if (settings!=null){
                 settings.setInterval(interval);
+            }
+            if (pedometerListener!=null){
+                pedometerListener.setLimit(interval);
+
             }
         }
 

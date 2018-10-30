@@ -27,21 +27,6 @@ public class Utiles {
         return 0L;
     }
 
-    public static double getCalorieBySteps(int stepCount){
-        //步长
-        int stepLen = 50;
-        //体重
-        int bodyWeight = 70;
-        //走路 走路热量(kcal)=体重(kg)*距离(公里)*0.0708
-        double METRIC_WALKING_FACTOR = 0.708;
-        //跑步 跑步热量（kcal）=体重（kg）* 距离(公里)*1.02784823
-        double METRIC_RUNNING_FACTOR = 1.02784823;
-
-        double calories = (bodyWeight*METRIC_WALKING_FACTOR)*stepLen*stepCount/100000.0;
-
-        return calories;
-    }
-
     public static double getDistanceVal(int stepCount){
         //步长
         int stepLen = 50;
