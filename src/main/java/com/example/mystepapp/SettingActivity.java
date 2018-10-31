@@ -3,6 +3,7 @@ package com.example.mystepapp;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -30,17 +31,17 @@ public class SettingActivity extends BaseActivity {
     }
 
     public class SettingListAdapter extends BaseAdapter{
-//        public SettingListAdapter(String[] data){
-//
-//        }
 
+        //实例化Setting对象
         private Settings settings = null;
+
+        private String[] listTitle={"设置步长","设置体重","传感器灵敏度","传感器采样时间"};
 
         public SettingListAdapter(){
             settings = new Settings(SettingActivity.this);
         }
 
-        private String[] listTitle={"设置步长","设置体重","传感器灵敏度","传感器采样时间"};
+
 
         @Override
         public int getCount() {
@@ -49,7 +50,7 @@ public class SettingActivity extends BaseActivity {
 
         @Override
         public Object getItem(int position) {
-            if (listTitle!=null&&position<listTitle.length){
+            if ((listTitle!=null)&&(position<listTitle.length)){
                 return listTitle[position];
             }
             return 0;
@@ -60,10 +61,14 @@ public class SettingActivity extends BaseActivity {
             return position;
         }
 
+        //加载List界面
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+
             ViewHolder viewHolder = null;
+
             if (convertView==null){
+                //实例化一个viewHolder
                 viewHolder = new ViewHolder();
                 convertView = View.inflate(SettingActivity.this,
                         R.layout.item_setting,
@@ -77,7 +82,7 @@ public class SettingActivity extends BaseActivity {
             viewHolder.title.setText(listTitle[position]);
             switch (position){
                 case 0:{
-                    float stepLen = settings.getStepLength();
+                    final float stepLen = settings.getStepLength();
                     viewHolder.desc.setText(String.format("计算距离和消耗的热量：%s CM",stepLen));
                     convertView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -89,7 +94,7 @@ public class SettingActivity extends BaseActivity {
                 }
                 break;
                 case 1:{
-                    float bodyWeight = settings.getBodyWeight();
+                    final float bodyWeight = settings.getBodyWeight();
                     viewHolder.desc.setText(String.format("通过体重计算消耗的热量：%s Kg",bodyWeight));
                     convertView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -114,7 +119,7 @@ public class SettingActivity extends BaseActivity {
                 break;
                 case 3:{
                     int interval  = settings.getInterval();
-                    viewHolder.desc.setText(String.format("每隔%毫秒进行一次数据采集", Utiles.getFormatVal(interval,"#.00")));
+                    viewHolder.desc.setText(String.format("每隔%s毫秒进行一次数据采集", Utiles.getFormatVal(interval,"#.00")));
                     convertView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -124,9 +129,9 @@ public class SettingActivity extends BaseActivity {
 
                 }
                 break;
-                default:{
-                    LogWriter.d("Postion = "+position);
-                }
+//                default:{
+//                    LogWriter.d("Postion = "+position);
+//                }
 
             }
 
@@ -157,7 +162,13 @@ public class SettingActivity extends BaseActivity {
         });
 
         settingListView.setAdapter(new SettingListAdapter());
-
+        //点击设置按钮后闪退，使用一个简单布局的listview来测试页面
+        //ArrayAdapter<String> adapter = new ArrayAdapter<>(SettingActivity.this,android.R.layout.simple_list_item_1);
+        //settingListView.setAdapter(adapter);
+//
+//        for (int i = 0; i < 20; i++) {
+//            adapter.add("条目"+String.valueOf(i));
+//        }
 
     }
 
